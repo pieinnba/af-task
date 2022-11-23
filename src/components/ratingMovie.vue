@@ -1,5 +1,7 @@
 <script setup>
-    const props = defineProps(['rating'])
+import { useStore } from 'vuex';
+
+    const store = useStore()
 </script>
 
 <template>
@@ -7,7 +9,7 @@
         <div class="ratting-title">iMDb ratting</div>
         <div class="rating-points">
             <img src="@/assets/icons/star.svg" alt="star">
-            <span><span class="ratting-point">{{ rating }}</span>/10</span>
+            <span><span class="ratting-point">{{ store.getters.ratingIMDb }}</span>/10</span>
         </div>
     </div>
 </template>

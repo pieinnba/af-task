@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
     <button class="watch-button">
         <img src="@/assets/icons/play.svg" alt="Play">

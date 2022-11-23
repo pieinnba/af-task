@@ -1,63 +1,68 @@
 <script setup>
 import TrailerBtn from '@/components/trailerBtn.vue';
 import RatingMovie from '@/components/ratingMovie.vue';
+import { useStore } from 'vuex';
 
-    const props = defineProps([
-        'selectedMovie', 
-        'selectedMovieGenres', 
-        'selectedMovieDirectors', 
-        'selectedMovieWriters', 
-        'selectedMovieStars',
-        'selectedMovieBG',
-        'windowWidth',
-    ])
+const store = useStore()
+
+    // const props = defineProps([
+    //     'selectedMovie', 
+    //     'selectedMovieGenres', 
+    //     'selectedMovieDirectors', 
+    //     'selectedMovieWriters', 
+    //     'selectedMovieStars',
+    //     'selectedMovieBG',
+    //     'windowWidth',
+    // ])
+
 </script>
 
 <template>
     <div class="about-movie">
-        <div class="cover-block"><img :src="selectedMovie.bg_picture" alt=""></div>
+        <button v-if="store.getters.windowWidth <= 820" class="back-button"><img src="@/assets/icons/back.svg" alt="back"></button>
+        <div class="cover-block"><img :src="store.getters.selectedMovie.bg_picture" alt=""></div>
 
         <RatingMovie 
-            :rating="selectedMovie.imdb_rating"
-            v-if="windowWidth > 1180"
+            :rating="store.getters.selectedMovie.imdb_rating"
+            v-if="store.getters.windowWidth > 1180"
         />
         <div>
-          <span class="movie-title">{{ selectedMovie.title }}</span>
-          <span class="release-year">({{ selectedMovie.release_year }})</span>
+          <span class="movie-title">{{ store.getters.selectedMovie.title }}</span>
+          <span class="release-year">({{ store.getters.selectedMovie.release_year }})</span>
         </div>
-        <div class="movie-description">{{ selectedMovie.description }}</div>
+        <div class="movie-description">{{ store.getters.selectedMovie.description }}</div>
         <div class="movie-stats">
-          <div class="movie-genres">{{ selectedMovieGenres }}</div>
-          <div class="movie-age-ratting">{{ selectedMovie.mpa_rating }}</div>
-          <div class="movie-duration">{{ selectedMovie.duration }}m</div>
+          <div class="movie-genres">{{ store.getters.selectedMovieGenres }}</div>
+          <div class="movie-age-ratting">{{ store.getters.selectedMovie.mpa_rating }}</div>
+          <div class="movie-duration">{{ store.getters.selectedMovie.duration }}m</div>
         </div>
 
         <TrailerBtn
-            v-if="windowWidth > 1180"
+            v-if="store.getters.windowWidth > 1180"
         />
 
       <div class="movie-creators">
-        <div v-if="selectedMovieDirectors.length" class="movie-director">
+        <div v-if="store.getters.selectedMovieDirectors.length" class="movie-director">
           <span class="movie-director-title">Director: </span>
-          <span class="movie-director-name">{{ selectedMovieDirectors }}</span>
+          <span class="movie-director-name">{{ store.getters.selectedMovieDirectors }}</span>
         </div>
-        <div v-if="selectedMovieWriters.length" class="movie-writers">
+        <div v-if="store.getters.selectedMovieWriters.length" class="movie-writers">
           <span class="movie-writers-title">Writers: </span>
-          <span class="movie-writers-name">{{ selectedMovieWriters }}</span>
+          <span class="movie-writers-name">{{ store.getters.selectedMovieWriters }}</span>
         </div>
-        <div v-if="selectedMovieStars.length" class="movie-stars" >
+        <div v-if="store.getters.selectedMovieStars.length" class="movie-stars" >
           <span class="movie-stars-title">Stars: </span>
-          <span class="movie-stars-name">{{ selectedMovieStars }}</span>
+          <span class="movie-stars-name">{{ store.getters.selectedMovieStars }}</span>
         </div>
       </div>
 
       <div class="rating-n-trailer">
         <TrailerBtn
-            v-if="windowWidth <= 1180"
+            v-if="store.getters.windowWidth <= 1180"
         />
         <RatingMovie 
-            :rating="selectedMovie.imdb_rating"
-            v-if="windowWidth <= 1180"
+            :rating="store.getters.selectedMovie.imdb_rating"
+            v-if="store.getters.windowWidth <= 1180"
         />
       </div>
 
@@ -70,8 +75,19 @@ import RatingMovie from '@/components/ratingMovie.vue';
   margin: 0 100px;
   margin-bottom: 50px;
 }
+.back-button {
+  background: none;
+  position: absolute;
+  z-index: 2;
+  top: 24px;
+  left: 24px;
+  display: none;
+}
 .cover-block {
     display: none;
+}
+.movie-ratting {
+  display: block;
 }
 .movie-title {
   font-family: 'Krona One';
@@ -142,7 +158,7 @@ import RatingMovie from '@/components/ratingMovie.vue';
 }
 
 
-@media (max-width: 1180px) {
+@media (min-width: 821px) and (max-width: 1180px) {
     .about-movie {
         position: relative;
         margin: 0;
@@ -157,7 +173,6 @@ import RatingMovie from '@/components/ratingMovie.vue';
     }
     .cover-block > img {
         width: 100%;
-        background: linear-gradient(180deg, rgba(22, 22, 22, 0) 47.99%, #161616 100%);
     }
     .cover-block:after {
         content: '';
@@ -195,5 +210,128 @@ import RatingMovie from '@/components/ratingMovie.vue';
         gap: 30px;
     }
 
+}
+
+@media (min-width: 415px) and (max-width: 820px) {
+  .about-movie {
+      position: relative;
+      margin: 0;
+      margin-bottom: 0;
+      height: 100vh;
+  }
+  .back-button {
+    display: block;
+  }
+  .cover-block {
+      position: relative;
+      display: block;
+      width: 100%;
+      min-height: 785px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+  }
+  .cover-block > img {
+      height: 100%;
+  }
+  .cover-block:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        background: linear-gradient(180deg, rgba(22, 22, 22, 0) 48.44%, #161616 100%);
+    }
+    .movie-title {
+        margin-left: 25px;
+    }
+    .movie-creators {
+        position: static;
+        margin-left: 25px;
+    }
+    .movie-description {
+        max-width: 500px;
+        margin-top: 34px;
+        margin-bottom: 16px;
+        margin-left: 25px;
+    }
+    .movie-stats {
+        margin-bottom: 32px;
+        margin-left: 25px;
+    }
+    .rating-n-trailer {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: absolute;
+        right: 25px;
+        bottom: 250px;
+        gap: 30px;
+    }
+}
+@media (max-width: 414px) {
+  .about-movie {
+      position: relative;
+      margin: 0;
+      margin-bottom: 0;
+      height: 100vh;
+  }
+  .back-button {
+    display: block;
+  }
+  .cover-block {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+  }
+  .cover-block > img {
+      height: 100%;
+  }
+  .cover-block:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        background: linear-gradient(180deg, rgba(22, 22, 22, 0) 48.44%, #161616 100%);
+    }
+    .movie-title {
+        margin-left: 25px;
+    }
+    .movie-creators {
+        position: static;
+        margin-left: 25px;
+        margin-bottom: 25px;
+    }
+    .movie-description {
+        max-width: 500px;
+        margin-top: 34px;
+        margin-bottom: 16px;
+        margin-left: 25px;
+    }
+    .movie-stats {
+        margin-bottom: 32px;
+        margin-left: 25px;
+    }
+    .rating-n-trailer {
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky; 
+        bottom: 0;
+        padding: 20px 25px 55px 25px;
+        background-color: #161616;
+        
+    }
+    .movie-ratting {
+      margin: 0;
+    }
 }
 </style>

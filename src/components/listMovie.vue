@@ -1,16 +1,19 @@
 <script setup>
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
-    const props = defineProps(['data', 'selectedMovieId', 'loadMoreData'])
+  const store = useStore()
 
-    function scrollByButton(direction) {
-        const movieList = document.querySelector('.movies-in-list')
-        console.log(movieList);
-        if (direction) {
-            movieList.scrollLeft += movieList.offsetWidth
-        } else {
-            movieList.scrollLeft -= movieList.offsetWidth
-        }
+  function scrollByButton(direction) {
+    const movieList = document.querySelector('.movies-in-list')
+    if (direction) {
+      movieList.scrollLeft += movieList.offsetWidth
+    } else {
+      movieList.scrollLeft -= movieList.offsetWidth
     }
+  }
+
+  const selectedMovieId = computed(() => store.getters.selectedMovieId);
 
 </script>
 
@@ -20,9 +23,9 @@
       <button class="scroll-button" @click="scrollByButton(false)"><img src="@/assets/icons/left-arrow.svg" alt="back"></button>
       <div class="movies-in-list">
         <div class="movie-in-list" 
-          @click="$emit('callChooseMovie', movie.id)"
-          :class="{ active: movie.id == selectedMovieId }"
-          v-for="movie in data"
+          @click="store.commit('chooseMovie', movie.id)"
+          :class="{ active: movie.id === selectedMovieId }"
+          v-for="movie in store.getters.data"
           :key="movie.id"
         >
           <div class="movie-poster"><img :src="movie.poster" alt="Poster"></div>
@@ -32,7 +35,7 @@
           </div>
           <div class="movie-in-list-title">{{ movie.title }}</div>
         </div>
-        <button class="load-more" v-if="loadMoreData" @click="$emit('callFecth')">
+        <button class="load-more" v-if="store.getters.loadMoreData" @click="store.dispatch('fetchData')">
           <div class="load-more-ico"><img src="@/assets/icons/plus.svg" alt="load more"></div>
           <div class="load-more-text">View more</div>
         </button>
@@ -46,6 +49,7 @@
   margin: 0 160px;
   margin-bottom: 60px;
   display: flex;
+  justify-content: center;
   align-items: center;
   overflow: scroll;
 }
@@ -60,13 +64,14 @@
 }
 .movie-in-list {
   min-width: 120px;
-  /* max-width: 120px; */
+  max-width: 120px;
   /* width: 120px; */
   margin: 0 12px;
   margin-top: 20px;
 }
 .movie-in-list.active {
   min-width: 147px;
+  max-width: 147px;
   /* width: 147px; */
   /* height: 225px; */
   margin-top: 0;
@@ -144,7 +149,7 @@
   margin: 0 4px;
 }
 
-@media (max-width: 1180px) {
+@media (min-width: 821px) and (max-width: 1180px) {
   .scroll-button {
     display: none;
   }
@@ -190,5 +195,103 @@
     height: 270px;
     min-width: 230px;
   }
+}
+
+@media (min-width: 415px) and (max-width: 820px) {
+  .scroll-button {
+    display: none;
+  }
+  .movie-list-block {
+    margin: 0;
+    display: block;
+    min-width: auto;
+    max-width: auto;
+  }
+  .movie-list-title {
+    display: block;
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    color: #FFFFFF;
+    margin: 50px 0;
+    margin-left: 15px;
+    margin-bottom: 25px;
+  }
+  .movie-list-title > span {
+    color: #DA1617;
+  }
+  .movies-in-list {
+    display: flex;
+    min-height: 100vh;
+    flex-wrap:wrap;
+  }
+  .movie-in-list {
+    min-width: 190px;
+    max-width: 190px;
+    margin-top: 0;
+    margin: 25px 7px;
+  }
+  .movie-in-list.active {
+    min-width: 190px;
+    max-width: 190px;
+    margin-top: 0;
+    margin: 25px 7px;
+  }
+  .load-more {
+    min-height: 270px;
+    min-width: 230px;
+  }
+}
+
+@media (max-width: 414px) {
+  .scroll-button {
+    display: none;
+  }
+  .movie-list-block {
+    margin: 0;
+    display: block;
+    min-width: auto;
+    max-width: auto;
+  }
+  .movie-list-title {
+    display: block;
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #FFFFFF;
+    margin: 30px 0;
+    margin-left: 15px;
+    margin-bottom: 25px;
+  }
+  .movie-list-title > span {
+    color: #DA1617;
+  }
+  .movies-in-list {
+    display: flex;
+    min-height: 100vh;
+    flex-wrap:wrap;
+    justify-content: center;
+  }
+  .movie-in-list {
+    min-width: 164px;
+    max-width: 164px;
+    margin-top: 0;
+    margin: 25px 7px;
+  }
+  .movie-in-list.active {
+    min-width: 164px;
+    max-width: 164px;
+    margin-top: 0;
+    margin: 25px 7px;
+  }
+  .load-more {
+    min-height: 270px;
+    min-width: 164px;
+  }
+
 }
 </style>
