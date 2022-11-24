@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed, onUnmounted } from 'vue';
-import Desktop from '@/views/Desktop.vue';
+import Desktop from '@/views/desktop.vue';
 import IpadLand from '@/views/ipadLand.vue';
 import IpadPort from '@/views/ipadPort.vue';
 import Iphone from '@/views/iphone.vue';

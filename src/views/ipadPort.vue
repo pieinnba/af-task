@@ -1,12 +1,6 @@
-<script setup>
-    import ListMovie from '@/components/listMovie.vue';
-    import ContentMovie from '@/components/contentMovie.vue';
-</script>
-
 <template>
     <div class="ipad-portrait-wrapper">
-        <ListMovie/>
-        <ContentMovie/>
+        <RouterView/>
     </div>
 </template>
 

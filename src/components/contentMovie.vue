@@ -5,21 +5,17 @@ import { useStore } from 'vuex';
 
 const store = useStore()
 
-    // const props = defineProps([
-    //     'selectedMovie', 
-    //     'selectedMovieGenres', 
-    //     'selectedMovieDirectors', 
-    //     'selectedMovieWriters', 
-    //     'selectedMovieStars',
-    //     'selectedMovieBG',
-    //     'windowWidth',
-    // ])
-
 </script>
 
 <template>
     <div class="about-movie">
-        <button v-if="store.getters.windowWidth <= 820" class="back-button"><img src="@/assets/icons/back.svg" alt="back"></button>
+        <RouterLink 
+          v-if="store.getters.windowWidth <= 820" 
+          :to="{name: 'ListMovie'}"
+          class="back-button"
+        >
+          <img src="@/assets/icons/back.svg" alt="back">
+        </RouterLink>
         <div class="cover-block"><img :src="store.getters.selectedMovie.bg_picture" alt=""></div>
 
         <RatingMovie 
@@ -227,12 +223,14 @@ const store = useStore()
       display: block;
       width: 100%;
       min-height: 785px;
+      max-height: 785px;
       overflow: hidden;
       display: flex;
       justify-content: center;
   }
   .cover-block > img {
-      height: 100%;
+      object-fit: cover;
+      object-position: center top;
   }
   .cover-block:after {
         content: '';
@@ -301,7 +299,11 @@ const store = useStore()
         background: linear-gradient(180deg, rgba(22, 22, 22, 0) 48.44%, #161616 100%);
     }
     .movie-title {
+        display: inline-block;
         margin-left: 25px;
+    }
+    .release-year {
+      margin-left: 25px;
     }
     .movie-creators {
         position: static;

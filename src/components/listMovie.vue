@@ -1,6 +1,7 @@
 <script setup>
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
 
   const store = useStore()
 
@@ -22,7 +23,8 @@ import { computed } from 'vue';
       <div class="movie-list-title">Popular <span>series</span></div>
       <button class="scroll-button" @click="scrollByButton(false)"><img src="@/assets/icons/left-arrow.svg" alt="back"></button>
       <div class="movies-in-list">
-        <div class="movie-in-list" 
+        <RouterLink class="movie-in-list"
+          :to="{ name: 'ContentMovie', params: { movieId: movie.id }}"
           @click="store.commit('chooseMovie', movie.id)"
           :class="{ active: movie.id === selectedMovieId }"
           v-for="movie in store.getters.data"
@@ -34,7 +36,7 @@ import { computed } from 'vue';
             <span><span class="ratting-point-in-list">{{ movie.imdb_rating }}</span>/10</span>
           </div>
           <div class="movie-in-list-title">{{ movie.title }}</div>
-        </div>
+        </RouterLink>
         <button class="load-more" v-if="store.getters.loadMoreData" @click="store.dispatch('fetchData')">
           <div class="load-more-ico"><img src="@/assets/icons/plus.svg" alt="load more"></div>
           <div class="load-more-text">View more</div>
