@@ -71,7 +71,6 @@ const store = createStore({
             const serverData = await res.json()
             state.page++
             state.data = state.data.concat(serverData.results)
-            // console.log(state.data);
             if(state.page === (serverData.pages)) state.loadMoreData = false
             if(state.selectedMovieId === 0) state.selectedMovieId = 1
           }

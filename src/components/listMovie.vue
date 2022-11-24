@@ -67,15 +67,12 @@ import { RouterLink } from 'vue-router';
 .movie-in-list {
   min-width: 120px;
   max-width: 120px;
-  /* width: 120px; */
   margin: 0 12px;
   margin-top: 20px;
 }
 .movie-in-list.active {
   min-width: 147px;
   max-width: 147px;
-  /* width: 147px; */
-  /* height: 225px; */
   margin-top: 0;
 }
 .movie-poster > img {

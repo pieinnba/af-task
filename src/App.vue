@@ -5,10 +5,8 @@ import IpadLand from '@/views/ipadLand.vue';
 import IpadPort from '@/views/ipadPort.vue';
 import Iphone from '@/views/iphone.vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router'
 
 const store = useStore()
-const router = useRouter()
 const views = {
   Desktop,
   IpadLand,
@@ -35,12 +33,6 @@ const currentView = computed(() => {
   onMounted(async () => {
     store.state.windowWidth = window.innerWidth
     await store.dispatch('fetchData')
-    // router.push({
-    //   name: 'ContentMovie',
-    //   params: {
-    //     movieId: store.getters.data[0].id
-    //   }
-    // })
   })
 
   onUnmounted(() => {
